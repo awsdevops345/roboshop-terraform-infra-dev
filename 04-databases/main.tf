@@ -99,10 +99,10 @@ module "rabbitmq" {
   source                 = "terraform-aws-modules/ec2-instance/aws"
   name = "${local.ec2_name}-rabbitmq"
   ami = data.aws_ami.centos8.id
-   instance_type          = "t3.small"
+   instance_type          = "t3.micro"
    vpc_security_group_ids = [data.aws_ssm_parameter.rabbitmq_sg_id.value]
    subnet_id = local.database_subnet_id
-
+   iam_instance_profile = "ansiblessmrole"
    tags = merge(
     var.common_tags,
     {
@@ -150,7 +150,7 @@ module "mysql" {
    instance_type          = "t3.small"
    vpc_security_group_ids = [data.aws_ssm_parameter.mysql_sg_id.value]
    subnet_id = local.database_subnet_id
-
+   iam_instance_profile = "ansiblessmrole"
    tags = merge(
     var.common_tags,
     {
@@ -198,7 +198,7 @@ module "records" {
 
   records = [
     {
-      name    = "mongodb"
+      name    = "mongodb-dev"
       type    = "A"
       ttl     = 1
       records = [
@@ -206,7 +206,7 @@ module "records" {
       ]
     },
     {
-      name    = "redis"
+      name    = "redis-dev"
       type    = "A"
       ttl     = 1
       records = [
@@ -214,7 +214,7 @@ module "records" {
       ]
     },
     {
-      name    = "mysql"
+      name    = "mysql-dev"
       type    = "A"
       ttl     = 1
       records = [
@@ -222,7 +222,7 @@ module "records" {
       ]
     },
     {
-      name    = "rabbitmq"
+      name    = "rabbitmq-dev"
       type    = "A"
       ttl     = 1
       records = [

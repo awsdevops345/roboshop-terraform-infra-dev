@@ -10,6 +10,14 @@ resource "aws_ssm_parameter" "app_alb_sg_id" {
     value = module.app_alb.sg_id
 }
 
+
+resource "aws_ssm_parameter" "web_alb_sg_id" {
+    name = "/${var.project_name}/${var.environment}/web_alb_sg_id"
+    type  = "String"
+    value = module.web_alb.sg_id
+}
+
+
 resource "aws_ssm_parameter" "catalogue_sg_id" {
     name = "/${var.project_name}/${var.environment}/catalogue_sg_id"
     type  = "String"
